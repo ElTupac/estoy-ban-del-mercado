@@ -35,17 +35,22 @@ config();
 
   router.use(
     "/wpp",
-    cors({
-      origin: function (origin, callback) {
-        if (
-          !corsWhitelist.length ||
-          corsWhitelist[0] === "*" ||
-          (origin && corsWhitelist.indexOf(origin) !== -1)
-        )
-          callback(null, true);
-        else callback(new Error("Not allowed by CORS"));
-      },
-    }),
+    (req, res, next) =>
+      cors({
+        origin: function (origin, callback) {
+          if (
+            !origin ||
+            !corsWhitelist.length ||
+            corsWhitelist[0] === "*" ||
+            (origin && corsWhitelist.indexOf(origin) !== -1)
+          )
+            callback(null, true);
+          else callback(new Error("Not allowed by CORS"));
+        },
+      })(req, res, (err) => {
+        if (err) return res.status(403).json({});
+        else next(err);
+      }),
     await phoneRoutes(ddbbConnection)
   );
 
