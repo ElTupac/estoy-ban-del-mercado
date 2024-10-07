@@ -1,8 +1,8 @@
 import express, { Express } from "express";
 import morgan from "morgan";
-import corsImplementation from "./cors";
 import { DataSource } from "typeorm";
 import * as Entities from "./entities";
+import cors from "cors";
 
 import phoneRoutes from "./routes/PhoneRoutes";
 
@@ -16,9 +16,7 @@ config();
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
 
-  const cors = corsImplementation(process.env.CORS_ORIGIN);
-
-  // router.options("/*", cors);
+  const corsWhitelist = (process.env.CORS_ORIGIN || "").split(",");
 
   const ddbbConnection = await new DataSource({
     type: "postgres",
@@ -35,7 +33,21 @@ config();
   });
   await ddbbConnection.initialize();
 
-  router.use("/wpp", cors, await phoneRoutes(ddbbConnection));
+  router.use(
+    "/wpp",
+    cors({
+      origin: function (origin, callback) {
+        if (
+          !corsWhitelist.length ||
+          corsWhitelist[0] === "*" ||
+          (origin && corsWhitelist.indexOf(origin) !== -1)
+        )
+          callback(null, true);
+        else callback(new Error("Not allowed by CORS"));
+      },
+    }),
+    await phoneRoutes(ddbbConnection)
+  );
 
   router.get("/status", (req, res) =>
     res.status(200).json({
