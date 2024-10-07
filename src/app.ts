@@ -4,7 +4,7 @@ import corsImplementation from "./cors";
 import { DataSource } from "typeorm";
 import * as Entities from "./entities";
 
-import userRoutes from "./routes/UserRoutes";
+import phoneRoutes from "./routes/PhoneRoutes";
 
 import { config } from "dotenv";
 config();
@@ -33,7 +33,7 @@ config();
   });
   await ddbbConnection.initialize();
 
-  router.use("/user", corsImplementation, await userRoutes(ddbbConnection));
+  router.use("/wpp", corsImplementation, await phoneRoutes(ddbbConnection));
 
   router.get("/status", (req, res) =>
     res.status(200).json({
