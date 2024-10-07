@@ -16,7 +16,9 @@ config();
   router.use(express.urlencoded({ extended: false }));
   router.use(express.json());
 
-  router.options("/*", corsImplementation);
+  const cors = corsImplementation(process.env.CORS_ORIGIN);
+
+  router.options("/*", cors);
 
   const ddbbConnection = await new DataSource({
     type: "postgres",
@@ -33,7 +35,7 @@ config();
   });
   await ddbbConnection.initialize();
 
-  router.use("/wpp", corsImplementation, await phoneRoutes(ddbbConnection));
+  router.use("/wpp", cors, await phoneRoutes(ddbbConnection));
 
   router.get("/status", (req, res) =>
     res.status(200).json({
