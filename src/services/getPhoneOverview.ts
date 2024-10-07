@@ -33,3 +33,5 @@ const getPhoneOverview: (
       return res.status(404).send(notFoundResponse(phoneHandler));
     }
   };
+
+export default getPhoneOverview;
