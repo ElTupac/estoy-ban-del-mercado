@@ -18,7 +18,7 @@ config();
 
   const cors = corsImplementation(process.env.CORS_ORIGIN);
 
-  router.options("/*", cors);
+  // router.options("/*", cors);
 
   const ddbbConnection = await new DataSource({
     type: "postgres",
