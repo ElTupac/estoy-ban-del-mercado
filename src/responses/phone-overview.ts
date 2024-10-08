@@ -32,7 +32,7 @@ export const phoneOverviewResponse = (
   const activeBansSection = activeBans.length
     ? `
         <section>
-            <h3>Warnings activos</h3>
+            <h3>Bans activos</h3>
             <ul>
                 ${activeBans.map(
                   ({ reason, expire_date }) =>
@@ -46,13 +46,15 @@ export const phoneOverviewResponse = (
     : "";
 
   const wholeEntries = [
-    ...bans.filter(
-      ({ id }) => !activeBans.some((activeBan) => activeBan.id === id)
-    ),
-    ...warnings.filter(
-      ({ id }) =>
-        !activeWarnings.some((activeWarning) => activeWarning.id === id)
-    ),
+    ...bans
+      .map((ban) => ({ ...ban, type: "ban" }))
+      .filter(({ id }) => !activeBans.some((activeBan) => activeBan.id === id)),
+    ...warnings
+      .map((warning) => ({ ...warning, type: "warning" }))
+      .filter(
+        ({ id }) =>
+          !activeWarnings.some((activeWarning) => activeWarning.id === id)
+      ),
   ];
   const wholeLog = wholeEntries.length
     ? `
@@ -68,8 +70,8 @@ export const phoneOverviewResponse = (
                     return 0;
                   })
                   .map(
-                    ({ reason, expire_date }) =>
-                      `<li>${reason} (Vencimiento: ${new Intl.DateTimeFormat(
+                    ({ reason, expire_date, type }) =>
+                      `<li>${type}: ${reason} (Vencimiento: ${new Intl.DateTimeFormat(
                         "es"
                       ).format(new Date(expire_date))})</li>`
                   )}
