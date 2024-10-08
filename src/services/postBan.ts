@@ -27,7 +27,7 @@ const postBan: (
   });
   let phone_id: UUID | undefined;
   // If there is no phone registered, create one
-  if (!phone) {
+  if (!phoneEntity) {
     const newPhone = new Phone();
     newPhone.phone = phone;
     const { raw } = await phoneRepository
