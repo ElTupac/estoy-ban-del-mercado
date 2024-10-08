@@ -6,12 +6,12 @@ const redirectToPhoneOverview: () => RequestHandler<
   {},
   {},
   {
-    q?: string;
+    phone?: string;
   }
 > = () => (req, res) => {
-  const { q } = req.query;
-  if (!q) return res.redirect("/");
-  return res.redirect(`/wpp/${cleanPhone(q)}`);
+  const { phone } = req.query;
+  if (!phone) return res.redirect("/");
+  return res.redirect(`/wpp/${cleanPhone(phone)}`);
 };
 
 export default redirectToPhoneOverview;
