@@ -27,7 +27,7 @@ export const indexResponse: () => string = () => {
                 <div>
                     <label>Contraseña</label>
                 </div>
-                <input name="password" type="text" required />
+                <input name="password" type="password" required />
             </div>
 
             <button type="reset">Cancelar</button>
@@ -59,7 +59,7 @@ export const indexResponse: () => string = () => {
                 <div>
                     <label>Contraseña</label>
                 </div>
-                <input name="password" type="text" required />
+                <input name="password" type="password" required />
             </div>
 
             <button type="reset">Cancelar</button>
