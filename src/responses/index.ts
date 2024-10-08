@@ -23,12 +23,6 @@ export const indexResponse: () => string = () => {
                 </div>
                 <textarea name="reason" type="text" required rows="5"></textarea>
             </div>
-            <div>
-                <div>
-                    <label>Fecha de vencimiento</label>
-                </div>
-                <input name="expire_date" type="date" required min="${todayDate}" />
-            </div>
 
             <button type="reset">Cancelar</button>
             <button type="submit">Confirmar</button>

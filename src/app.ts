@@ -53,8 +53,6 @@ config();
       else next(err);
     });
 
-  router.use("/", corsImplementation, (req, res) => res.send(indexResponse()));
-
   router.use("/wpp", corsImplementation, await phoneRoutes(ddbbConnection));
   router.use(
     "/warning",
@@ -68,6 +66,8 @@ config();
       message: "server is up and running",
     })
   );
+  router.get("/", corsImplementation, (req, res) => res.send(indexResponse()));
+
   router.use((req, res) => {
     const error = new Error("no resource");
     return res.status(404).json({

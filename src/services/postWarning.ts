@@ -16,11 +16,10 @@ const postWarning: (
   {
     phone: string;
     reason: string;
-    expire_date: string;
   }
 > = (phoneRepository, warningRepository, banRepository) => async (req, res) => {
   console.log(req.body);
-  const { phone, expire_date, reason } = req.body;
+  const { phone, reason } = req.body;
 
   const phoneEntity = await phoneRepository.findOneBy({
     phone,
@@ -41,7 +40,10 @@ const postWarning: (
   } else phone_id = phoneEntity?.id as UUID;
 
   const warning = new Warning();
-  warning.expire_date = expire_date;
+  const expire_date = new Date();
+  // 3 days warning
+  expire_date.setDate(expire_date.getDate() + 3);
+  warning.expire_date = expire_date.toISOString().split("T")[0];
   warning.reason = reason;
   warning.phone_id = phone_id;
   await warningRepository
