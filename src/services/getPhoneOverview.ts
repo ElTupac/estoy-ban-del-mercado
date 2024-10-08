@@ -7,6 +7,8 @@ import { getPhoneWarnings } from "./getPhoneWarnings";
 import { UUID } from "crypto";
 import { getPhoneBans } from "./getPhoneBans";
 import { cleanPhone } from "../utils/clean-phone";
+import { filterPhone } from "../utils/filter-phone";
+import { wtfResponse } from "../responses/wtf";
 
 const getPhoneOverview: (
   phoneRepository: Repository<Phone>,
@@ -15,6 +17,8 @@ const getPhoneOverview: (
 ) => RequestHandler<{ phoneHandler: string }> =
   (phoneRepository, warningRepository, banRepository) => async (req, res) => {
     const { phoneHandler } = req.params;
+
+    if (filterPhone(phoneHandler)) return res.status(428).send(wtfResponse());
 
     try {
       const phone = await phoneRepository.findOneBy({
