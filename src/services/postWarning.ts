@@ -29,16 +29,14 @@ const postWarning: (
   if (!phoneEntity) {
     const newPhone = new Phone();
     newPhone.phone = phone;
-    const response = await phoneRepository
+    const { raw } = await phoneRepository
       .createQueryBuilder()
       .insert()
       .into(Phone)
       .values(newPhone)
       .returning("*")
       .execute();
-    console.log(response);
-    const { raw } = response;
-    phone_id = (raw as Phone).id as UUID;
+    phone_id = (raw[0] as Phone).id as UUID;
   } else phone_id = phoneEntity?.id as UUID;
 
   const warning = new Warning();
