@@ -3,15 +3,21 @@ export const indexResponse: () => string = () => `
         <h3>Crear Warning</h3>
         <form action="/warning" method="POST">
             <div>
-                <label>Telefono</label>
+                <div>
+                    <label>Telefono</label>
+                </div>
                 <input name="phone" type="text" inputmode="tel" required />
             </div>
             <div>
-                <label>Motivo</label>
+                <div>
+                    <label>Motivo</label>
+                </div>
                 <textarea name="reason" type="text" required rows="5"><textarea />
             </div>
             <div>
-                <label>Fecha de vencimiento</label>
+                <div>
+                    <label>Fecha de vencimiento</label>
+                </div>
                 <input name="expire_date" type="date required min="${new Date().toISOString()}" />
             </div>
 
@@ -23,15 +29,21 @@ export const indexResponse: () => string = () => `
         <h3>Crear Ban</h3>
         <form action="/ban" method="POST">
             <div>
-                <label>Telefono</label>
+                <div>
+                    <label>Telefono</label>
+                </div>
                 <input name="phone" type="text" inputmode="tel" required />
             </div>
             <div>
-                <label>Motivo</label>
+                <div>
+                    <label>Motivo</label>
+                </div>
                 <textarea name="reason" type="text" required rows="5"><textarea />
             </div>
             <div>
-                <label>Fecha de vencimiento</label>
+                <div>
+                    <label>Fecha de vencimiento</label>
+                </div>
                 <input name="expire_date" type="date required min="${new Date().toISOString()}" />
             </div>
 
