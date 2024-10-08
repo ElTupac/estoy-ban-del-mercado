@@ -46,11 +46,21 @@ export const phoneOverviewResponse = (
     `
     : "";
 
-  const wholeLog = `
+  const wholeEntries = [
+    ...bans.filter(
+      ({ id }) => !activeBans.some((activeBan) => activeBan.id === id)
+    ),
+    ...warnings.filter(
+      ({ id }) =>
+        !activeWarnings.some((activeWarning) => activeWarning.id === id)
+    ),
+  ];
+  const wholeLog = wholeEntries.length
+    ? `
         <section>
             <h3>Historico</h3>
             <ul>
-                ${[...activeBans, ...activeWarnings]
+                ${wholeEntries
                   .sort((a, b) => {
                     const aDate = new Date(a.expire_date).getTime();
                     const bDate = new Date(b.expire_date).getTime();
@@ -66,7 +76,8 @@ export const phoneOverviewResponse = (
                   )}
             </ul>
         </section>
-    `;
+    `
+    : "";
 
   return `
     <style>
