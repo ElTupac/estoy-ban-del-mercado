@@ -2,6 +2,10 @@ import { Repository } from "typeorm";
 import { Ban, Phone, Warning } from "../entities";
 import { RequestHandler } from "express";
 import { notFoundResponse } from "../responses/not-found";
+import { phoneOverviewResponse } from "../responses/phone-overview";
+import { getPhoneWarnings } from "./getPhoneWarnings";
+import { UUID } from "crypto";
+import { getPhoneBans } from "./getPhoneBans";
 
 const getPhoneOverview: (
   phoneRepository: Repository<Phone>,
@@ -16,18 +20,13 @@ const getPhoneOverview: (
         phone: phoneHandler,
       });
       if (!phone) throw new Error(`Not found ${phoneHandler}`);
-      const warnings = await warningRepository
-        .createQueryBuilder("warning")
-        .where("warning.phone_id = :phoneId", { phoneId: phone.id })
-        .execute();
-      const bans = await banRepository
-        .createQueryBuilder("ban")
-        .where("ban.phone_id = :banId", { banId: phone.id });
+      const warnings = await getPhoneWarnings(
+        phone.id as UUID,
+        warningRepository
+      );
+      const bans = await getPhoneBans(phone.id as UUID, banRepository);
 
-      return res.send({
-        warnings,
-        bans,
-      });
+      return res.send(phoneOverviewResponse(phoneHandler, warnings, bans));
     } catch (error) {
       console.error(error);
       return res.status(404).send(notFoundResponse(phoneHandler));

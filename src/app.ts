@@ -1,10 +1,12 @@
-import express, { Express } from "express";
+import express, { Express, RequestHandler } from "express";
 import morgan from "morgan";
 import { DataSource } from "typeorm";
 import * as Entities from "./entities";
 import cors from "cors";
 
 import phoneRoutes from "./routes/PhoneRoutes";
+import warningRoutes from "./routes/WarningRoutes";
+import banRoutes from "./routes/BanRoutes";
 
 import { config } from "dotenv";
 config();
@@ -33,26 +35,30 @@ config();
   });
   await ddbbConnection.initialize();
 
+  const corsImplementation: RequestHandler = (req, res, next) =>
+    cors({
+      origin: function (origin, callback) {
+        if (
+          !origin ||
+          !corsWhitelist.length ||
+          corsWhitelist[0] === "*" ||
+          (origin && corsWhitelist.indexOf(origin) !== -1)
+        )
+          callback(null, true);
+        else callback(new Error("Not allowed by CORS"));
+      },
+    })(req, res, (err) => {
+      if (err) return res.status(403).json({});
+      else next(err);
+    });
+
+  router.use("/wpp", corsImplementation, await phoneRoutes(ddbbConnection));
   router.use(
-    "/wpp",
-    (req, res, next) =>
-      cors({
-        origin: function (origin, callback) {
-          if (
-            !origin ||
-            !corsWhitelist.length ||
-            corsWhitelist[0] === "*" ||
-            (origin && corsWhitelist.indexOf(origin) !== -1)
-          )
-            callback(null, true);
-          else callback(new Error("Not allowed by CORS"));
-        },
-      })(req, res, (err) => {
-        if (err) return res.status(403).json({});
-        else next(err);
-      }),
-    await phoneRoutes(ddbbConnection)
+    "/warning",
+    corsImplementation,
+    await warningRoutes(ddbbConnection)
   );
+  router.use("/ban", corsImplementation, await banRoutes(ddbbConnection));
 
   router.get("/status", (req, res) =>
     res.status(200).json({
