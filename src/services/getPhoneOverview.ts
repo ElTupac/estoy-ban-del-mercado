@@ -6,6 +6,7 @@ import { phoneOverviewResponse } from "../responses/phone-overview";
 import { getPhoneWarnings } from "./getPhoneWarnings";
 import { UUID } from "crypto";
 import { getPhoneBans } from "./getPhoneBans";
+import { cleanPhone } from "../utils/clean-phone";
 
 const getPhoneOverview: (
   phoneRepository: Repository<Phone>,
@@ -17,16 +18,21 @@ const getPhoneOverview: (
 
     try {
       const phone = await phoneRepository.findOneBy({
-        phone: phoneHandler,
+        phone: cleanPhone(phoneHandler),
       });
-      if (!phone) return res.send(phoneOverviewResponse(phoneHandler, [], []));
+      if (!phone)
+        return res.send(
+          phoneOverviewResponse(cleanPhone(phoneHandler), [], [])
+        );
       const warnings = await getPhoneWarnings(
         phone.id as UUID,
         warningRepository
       );
       const bans = await getPhoneBans(phone.id as UUID, banRepository);
 
-      return res.send(phoneOverviewResponse(phoneHandler, warnings, bans));
+      return res.send(
+        phoneOverviewResponse(cleanPhone(phoneHandler), warnings, bans)
+      );
     } catch (error) {
       console.error(error);
       return res.status(404).send(notFoundResponse(phoneHandler));

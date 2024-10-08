@@ -5,6 +5,7 @@ import { UUID } from "crypto";
 import { getPhoneBans } from "./getPhoneBans";
 import { getPhoneWarnings } from "./getPhoneWarnings";
 import { phoneOverviewResponse } from "../responses/phone-overview";
+import { cleanPhone } from "../utils/clean-phone";
 
 const postWarning: (
   phoneRepository: Repository<Phone>,
@@ -22,13 +23,13 @@ const postWarning: (
   const { phone, reason } = req.body;
 
   const phoneEntity = await phoneRepository.findOneBy({
-    phone,
+    phone: cleanPhone(phone),
   });
   let phone_id: UUID | undefined;
   // If there is no phone registered, create one
   if (!phoneEntity) {
     const newPhone = new Phone();
-    newPhone.phone = phone;
+    newPhone.phone = cleanPhone(phone);
     const { raw } = await phoneRepository
       .createQueryBuilder()
       .insert()
@@ -56,7 +57,7 @@ const postWarning: (
   const warnings = await getPhoneWarnings(phone_id, warningRepository);
   const bans = await getPhoneBans(phone_id, banRepository);
 
-  return res.send(phoneOverviewResponse(phone, warnings, bans));
+  return res.send(phoneOverviewResponse(cleanPhone(phone), warnings, bans));
 };
 
 export default postWarning;
