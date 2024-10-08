@@ -53,13 +53,30 @@ config();
       else next(err);
     });
 
+  const passwordProtected: RequestHandler<{}, {}, { password: string }> = (
+    req,
+    res,
+    next
+  ) => {
+    const { password } = req.body;
+    if (password !== process.env.PASSWORD)
+      return res.status(401).send("<h1>Flashaste amiguitooo</h1>");
+    next();
+  };
+
   router.use("/wpp", corsImplementation, await phoneRoutes(ddbbConnection));
   router.use(
     "/warning",
     corsImplementation,
+    passwordProtected,
     await warningRoutes(ddbbConnection)
   );
-  router.use("/ban", corsImplementation, await banRoutes(ddbbConnection));
+  router.use(
+    "/ban",
+    corsImplementation,
+    passwordProtected,
+    await banRoutes(ddbbConnection)
+  );
 
   router.get("/status", (req, res) =>
     res.status(200).json({

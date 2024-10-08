@@ -5,8 +5,8 @@ import { Warning } from "../entities";
 export const getPhoneWarnings: (
   phone_id: UUID,
   warningRepository: Repository<Warning>
-) => Promise<Warning[]> = async (phone_id, warningRepository) =>
-  (await warningRepository
-    .createQueryBuilder()
+) => Promise<Warning[]> = (phone_id, warningRepository) =>
+  warningRepository
+    .createQueryBuilder("")
     .where("phone_id = :phone_id", { phone_id })
-    .execute()) as Warning[];
+    .execute() as Promise<Warning[]>;

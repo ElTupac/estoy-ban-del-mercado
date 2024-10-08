@@ -5,8 +5,8 @@ import { Ban } from "../entities";
 export const getPhoneBans: (
   phone_id: UUID,
   banRepository: Repository<Ban>
-) => Promise<Ban[]> = async (phone_id, banRepository) =>
-  (await banRepository
-    .createQueryBuilder()
+) => Promise<Ban[]> = (phone_id, banRepository) =>
+  banRepository
+    .createQueryBuilder("")
     .where("phone_id = :phone_id", { phone_id })
-    .execute()) as Ban[];
+    .execute() as Promise<Ban[]>;

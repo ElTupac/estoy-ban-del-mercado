@@ -23,6 +23,12 @@ export const indexResponse: () => string = () => {
                 </div>
                 <textarea name="reason" type="text" required rows="5"></textarea>
             </div>
+            <div>
+                <div>
+                    <label>Contraseña</label>
+                </div>
+                <input name="password" type="text" required />
+            </div>
 
             <button type="reset">Cancelar</button>
             <button type="submit">Confirmar</button>
@@ -48,6 +54,12 @@ export const indexResponse: () => string = () => {
                     <label>Fecha de vencimiento</label>
                 </div>
                 <input name="expire_date" type="date" required min="${todayDate}" />
+            </div>
+            <div>
+                <div>
+                    <label>Contraseña</label>
+                </div>
+                <input name="password" type="text" required />
             </div>
 
             <button type="reset">Cancelar</button>
