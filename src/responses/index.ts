@@ -12,7 +12,7 @@ export const indexResponse: () => string = () => `
                 <div>
                     <label>Motivo</label>
                 </div>
-                <textarea name="reason" type="text" required rows="5"><textarea />
+                <textarea name="reason" type="text" required rows="5"></textarea>
             </div>
             <div>
                 <div>
@@ -38,7 +38,7 @@ export const indexResponse: () => string = () => `
                 <div>
                     <label>Motivo</label>
                 </div>
-                <textarea name="reason" type="text" required rows="5"><textarea />
+                <textarea name="reason" type="text" required rows="5"></textarea>
             </div>
             <div>
                 <div>
