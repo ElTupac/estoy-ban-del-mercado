@@ -1,6 +1,6 @@
 import express from "express";
 import { DataSource } from "typeorm";
-import { Ban, Phone, Warning } from "../entities";
+import { Phone, Warning } from "../entities";
 import postWarning from "../services/postWarning";
 
 const routes = async (connection: DataSource) => {
@@ -8,9 +8,8 @@ const routes = async (connection: DataSource) => {
 
   const phoneRepository = await connection.getRepository(Phone);
   const warningRepository = await connection.getRepository(Warning);
-  const banRepository = await connection.getRepository(Ban);
 
-  _.post("/", postWarning(phoneRepository, warningRepository, banRepository));
+  _.post("/", postWarning(phoneRepository, warningRepository));
 
   return _;
 };

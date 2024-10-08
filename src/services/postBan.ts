@@ -1,15 +1,11 @@
 import { RequestHandler } from "express";
 import { Repository } from "typeorm";
-import { Ban, Phone, Warning } from "../entities";
+import { Ban, Phone } from "../entities";
 import { UUID } from "crypto";
-import { getPhoneBans } from "./getPhoneBans";
-import { getPhoneWarnings } from "./getPhoneWarnings";
-import { phoneOverviewResponse } from "../responses/phone-overview";
 import { cleanPhone } from "../utils/clean-phone";
 
 const postBan: (
   phoneRepository: Repository<Phone>,
-  warningRepository: Repository<Warning>,
   banRepository: Repository<Ban>
 ) => RequestHandler<
   {},
@@ -19,7 +15,7 @@ const postBan: (
     reason: string;
     expire_date: string;
   }
-> = (phoneRepository, warningRepository, banRepository) => async (req, res) => {
+> = (phoneRepository, banRepository) => async (req, res) => {
   console.log(req.body);
   const { phone, expire_date, reason } = req.body;
 
@@ -45,17 +41,14 @@ const postBan: (
   ban.expire_date = new Date(expire_date).toISOString().split("T")[0];
   ban.reason = reason;
   ban.phone_id = phone_id;
-  await warningRepository
+  await banRepository
     .createQueryBuilder()
     .insert()
     .into(Ban)
     .values(ban)
     .execute();
 
-  const warnings = await getPhoneWarnings(phone_id, warningRepository);
-  const bans = await getPhoneBans(phone_id, banRepository);
-
-  return res.send(phoneOverviewResponse(cleanPhone(phone), warnings, bans));
+  return res.redirect(`/wpp/${cleanPhone(phone)}`);
 };
 
 export default postBan;
