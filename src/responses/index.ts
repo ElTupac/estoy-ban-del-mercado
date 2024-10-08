@@ -1,70 +1,13 @@
-export const indexResponse: () => string = () => {
-  const minDate = new Date();
-  const todayDate = minDate.toISOString().split("T")[0];
-
+export const indexReponse: () => string = () => {
   return `
-    <style>
-        form > div {
-            margin-bottom: 0.5rem;
-        }
-    </style>
-    <section>
-        <h3>Crear Warning</h3>
-        <form action="/warning" method="POST">
-            <div>
-                <div>
-                    <label>Telefono</label>
-                </div>
-                <input name="phone" type="text" inputmode="tel" required />
-            </div>
-            <div>
-                <div>
-                    <label>Motivo</label>
-                </div>
-                <textarea name="reason" type="text" required rows="5"></textarea>
-            </div>
-            <div>
-                <div>
-                    <label>Contraseña</label>
-                </div>
-                <input name="password" type="password" required />
-            </div>
-
-            <button type="reset">Cancelar</button>
-            <button type="submit">Confirmar</button>
-        </form>
-    </section>
-    <section>
-        <h3>Crear Ban</h3>
-        <form action="/ban" method="POST">
-            <div>
-                <div>
-                    <label>Telefono</label>
-                </div>
-                <input name="phone" type="text" inputmode="tel" required />
-            </div>
-            <div>
-                <div>
-                    <label>Motivo</label>
-                </div>
-                <textarea name="reason" type="text" required rows="5"></textarea>
-            </div>
-            <div>
-                <div>
-                    <label>Fecha de vencimiento</label>
-                </div>
-                <input name="expire_date" type="date" required min="${todayDate}" />
-            </div>
-            <div>
-                <div>
-                    <label>Contraseña</label>
-                </div>
-                <input name="password" type="password" required />
-            </div>
-
-            <button type="reset">Cancelar</button>
-            <button type="submit">Confirmar</button>
-        </form>
-    </section>
-`;
+    <h1>Estoy ban del mercado?</h1>
+    <p>Consulta si tu contacto recibio warning o ban de los grupos de mercado y subasta de Lairen.</p>
+    <p>Copialo tal cual aparece en en whatsapp, es de esa forma que lo registramos. Si lo modificas puede darte un resultado erroneo.</p>
+    <form action="/q" method="GET">
+        <div>
+            <input type="search" placeholder="Ej.: +55 11 91579-6827" name="phone" />
+        </div>
+        <button type="submit">Buscar</button>
+    </form>
+  `;
 };

@@ -9,7 +9,8 @@ import warningRoutes from "./routes/WarningRoutes";
 import banRoutes from "./routes/BanRoutes";
 
 import { config } from "dotenv";
-import { indexResponse } from "./responses";
+import { createWarningBanPage } from "./responses/create-warning-ban";
+import { indexReponse } from "./responses";
 config();
 
 (async () => {
@@ -77,13 +78,16 @@ config();
     passwordProtected,
     await banRoutes(ddbbConnection)
   );
+  router.get("/", corsImplementation, (req, res) => res.send(indexReponse()));
+  router.get("/a", corsImplementation, (req, res) =>
+    res.send(createWarningBanPage())
+  );
 
   router.get("/status", (req, res) =>
     res.status(200).json({
       message: "server is up and running",
     })
   );
-  router.get("/", corsImplementation, (req, res) => res.send(indexResponse()));
 
   router.use((req, res) => {
     const error = new Error("no resource");
