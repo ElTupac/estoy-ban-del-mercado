@@ -9,6 +9,7 @@ import warningRoutes from "./routes/WarningRoutes";
 import banRoutes from "./routes/BanRoutes";
 
 import { config } from "dotenv";
+import { indexResponse } from "./responses";
 config();
 
 (async () => {
@@ -51,6 +52,8 @@ config();
       if (err) return res.status(403).json({});
       else next(err);
     });
+
+  router.use("/", corsImplementation, (req, res) => res.send(indexResponse()));
 
   router.use("/wpp", corsImplementation, await phoneRoutes(ddbbConnection));
   router.use(

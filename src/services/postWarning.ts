@@ -19,6 +19,7 @@ const postWarning: (
     expire_date: string;
   }
 > = (phoneRepository, warningRepository, banRepository) => async (req, res) => {
+  console.log(req.body);
   const { phone, expire_date, reason } = req.body;
 
   const phoneEntity = await phoneRepository.findOneBy({
