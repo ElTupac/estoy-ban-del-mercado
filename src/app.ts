@@ -11,6 +11,7 @@ import banRoutes from "./routes/BanRoutes";
 import { config } from "dotenv";
 import { createWarningBanPage } from "./responses/create-warning-ban";
 import { indexReponse } from "./responses";
+import redirectToPhoneOverview from "./services/redirectToPhoneOverview";
 config();
 
 (async () => {
@@ -79,6 +80,7 @@ config();
     await banRoutes(ddbbConnection)
   );
   router.get("/", corsImplementation, (req, res) => res.send(indexReponse()));
+  router.get("/q", corsImplementation, redirectToPhoneOverview());
   router.get("/a", corsImplementation, (req, res) =>
     res.send(createWarningBanPage())
   );
