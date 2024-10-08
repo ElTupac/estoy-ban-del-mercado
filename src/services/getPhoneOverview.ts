@@ -19,7 +19,7 @@ const getPhoneOverview: (
       const phone = await phoneRepository.findOneBy({
         phone: phoneHandler,
       });
-      if (!phone) throw new Error(`Not found ${phoneHandler}`);
+      if (!phone) return res.send(phoneOverviewResponse(phoneHandler, [], []));
       const warnings = await getPhoneWarnings(
         phone.id as UUID,
         warningRepository
