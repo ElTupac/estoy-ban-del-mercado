@@ -8,7 +8,7 @@ export const indexResponse: () => string = () => `
             </div>
             <div>
                 <label>Motivo</label>
-                <textarea name="reason" type="text" required rows="5" />
+                <textarea name="reason" type="text" required rows="5"><textarea />
             </div>
             <div>
                 <label>Fecha de vencimiento</label>
@@ -28,7 +28,7 @@ export const indexResponse: () => string = () => `
             </div>
             <div>
                 <label>Motivo</label>
-                <textarea name="reason" type="text" required rows="5" />
+                <textarea name="reason" type="text" required rows="5"><textarea />
             </div>
             <div>
                 <label>Fecha de vencimiento</label>
