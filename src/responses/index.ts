@@ -18,7 +18,7 @@ export const indexResponse: () => string = () => `
                 <div>
                     <label>Fecha de vencimiento</label>
                 </div>
-                <input name="expire_date" type="date required min="${new Date().toISOString()}" />
+                <input name="expire_date" type="date" required min="${new Date().toISOString()}" />
             </div>
 
             <button type="reset">Cancelar</button>
@@ -44,7 +44,7 @@ export const indexResponse: () => string = () => `
                 <div>
                     <label>Fecha de vencimiento</label>
                 </div>
-                <input name="expire_date" type="date required min="${new Date().toISOString()}" />
+                <input name="expire_date" type="date" required min="${new Date().toISOString()}" />
             </div>
 
             <button type="reset">Cancelar</button>
