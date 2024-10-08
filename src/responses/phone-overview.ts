@@ -5,6 +5,7 @@ export const phoneOverviewResponse = (
   warnings: Warning[],
   bans: Ban[]
 ) => {
+  console.log({ warnings, bans, phone });
   const title = `<h1><a href="/wpp/${phone}">${phone}</a></h1>`;
 
   const activeWarnings = warnings.filter(
