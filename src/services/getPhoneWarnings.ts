@@ -7,6 +7,6 @@ export const getPhoneWarnings: (
   warningRepository: Repository<Warning>
 ) => Promise<Warning[]> = async (phone_id, warningRepository) =>
   (await warningRepository
-    .createQueryBuilder("warning")
-    .where("warning.phone_id = :phone_id", { phone_id })
+    .createQueryBuilder()
+    .where("phone_id = :phone_id", { phone_id })
     .execute()) as Warning[];

@@ -7,6 +7,6 @@ export const getPhoneBans: (
   banRepository: Repository<Ban>
 ) => Promise<Ban[]> = async (phone_id, banRepository) =>
   (await banRepository
-    .createQueryBuilder("ban")
-    .where("ban.phone_id = :phone_id", { phone_id })
+    .createQueryBuilder()
+    .where("phone_id = :phone_id", { phone_id })
     .execute()) as Ban[];
