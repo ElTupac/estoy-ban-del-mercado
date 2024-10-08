@@ -3,6 +3,11 @@ export const indexResponse: () => string = () => {
   const todayDate = minDate.toISOString().split("T")[0];
 
   return `
+    <style>
+        form > div {
+            margin-bottom: 0.5rem;
+        }
+    </style>
     <section>
         <h3>Crear Warning</h3>
         <form action="/warning" method="POST">
